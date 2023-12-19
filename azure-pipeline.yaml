@@ -4,7 +4,10 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: |
-    mvn verify package sonar:sonar -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.organization=azuredevopsdevsecopsorg -Dsonar.projectKey=azuredevopsdevsecopsprojectkey -Dsonar.login=6213f47cb5929e327fe9e4b5
-  displayName: "Integrate SAST using SonarCloud in Azure DevOps DevSecOps Pipeline"
+jobs:
+- job: Sonar_SAST_Scan_Job
+  container: maven:3.8.1-openjdk-17-slim
+  steps:
+  - script: |
+      mvn verify package sonar:sonar -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.organization=azuredevopsdevsecopsoorg -Dsonar.projectKey=azuredevsecopsoprojectkey -Dsonar.token=$(sonar_token)
+    displayName: "Integrate SAST using SonarCloud to populate code coverage and secure pipeline variable in Azure DevOps DevSecOps Pipeline"
